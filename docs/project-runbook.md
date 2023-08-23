@@ -1,6 +1,3 @@
-# End-to-End Jenkins CI/CD Pipeline Project Architecture (Java Web Application)
-![CompleteCICDProject!](https://lucid.app/publicSegments/view/0c183bd6-73f4-4547-93e1-5246db5e863c/image.png) 
-
 ###### Project ToolBox 🧰
 - [Git](https://git-scm.com/) Git will be used to manage our application source code.
 - [Github](https://github.com/) Github is a free and open source distributed VCS designed to handle everything from small to very large projects with speed and efficiency
@@ -34,7 +31,7 @@
     - Instance type: t2.medium
     - Security Group (Open): 8080, 9100 and 22 to 0.0.0.0/0
     - Key pair: Select or create a new keypair
-    - User data (Copy the following user data): https://github.com/awanmbandi/realworld-cicd-pipeline-project/blob/maven-nexus-sonarqube-jenkins-install/jenkins-install.sh
+    - User data (Copy the following user data): https://github.com/awanmbandi/eagles-batch-devops-projects/blob/maven-nexus-sonarqube-jenkins-install/jenkins-install.sh
     - Launch Instance
 
 3) SonarQube
@@ -42,7 +39,7 @@
     - Instance type: t2.medium
     - Security Group (Open): 9000, 9100 and 22 to 0.0.0.0/0
     - Key pair: Select or create a new keypair
-    - User data (Copy the following user data): https://github.com/awanmbandi/realworld-cicd-pipeline-project/blob/maven-nexus-sonarqube-jenkins-install/sonarqube-install.sh
+    - User data (Copy the following user data): https://github.com/awanmbandi/eagles-batch-devops-projects/blob/maven-nexus-sonarqube-jenkins-install/sonarqube-install.sh
     - Launch Instance
 
 4) Nexus
@@ -50,7 +47,7 @@
     - Instance type: t2.medium
     - Security Group (Open): 8081, 9100 and 22 to 0.0.0.0/0
     - Key pair: Select or create a new keypair
-    - User data (Copy the following user data): https://github.com/awanmbandi/realworld-cicd-pipeline-project/blob/maven-nexus-sonarqube-jenkins-install/nexus-install.sh
+    - User data (Copy the following user data): https://github.com/awanmbandi/eagles-batch-devops-projects/blob/maven-nexus-sonarqube-jenkins-install/nexus-install.sh
     - Launch Instance
 
 5) EC2 (Dev/Stage/Prod)
@@ -76,8 +73,8 @@
     - Launch Instance
 
 8) EC2 (Splunk)
-    - Create an Amazon Linux 2 VM instance and call it (Names: Splunk-Indexer)
-    - Instance type: t2.medium
+    - Create an Amazon Linux 2 VM instance and call it (Names: Splunk-Server)
+    - Instance type: t2.micro
     - Security Group (Open): 22, 8000, 9997, 9100 to 0.0.0.0/0
     - Key pair: Select or create a new keypair
     - Launch Instance
@@ -111,7 +108,7 @@
 ### Configure Promitheus
   - Login/SSH to your Prometheus Server
   - Clone the following repository: https://github.com/awanmbandi/realworld-cicd-pipeline-project.git
-  - Change directory to "realworld-cicd-pipeline-project"
+  - Change directory to "eagles-batch-devops-projects"
   - Swtitch to the "prometheus-and-grafana" git branch  
   - Run: ./install-prometheus.sh
   - Confirm the status shows "Active (running)"
@@ -120,7 +117,7 @@
 ### Configure Grafana
   - Login/SSH to your Grafana Server
   - Clone the following repository: https://github.com/awanmbandi/realworld-cicd-pipeline-project.git
-  - Change directory to "realworld-cicd-pipeline-project"
+  - Change directory to "eagles-batch-devops-projects"
   - Swtitch to the "prometheus-and-grafana" git branch 
   - Run: ls or ll  (to confirm you have the branch files)
   - Run: ./install-grafana.sh
@@ -132,7 +129,7 @@
   - Perform the following operations on all of them
   - Install git by running: sudo yum install git -y 
   - Clone the following repository: https://github.com/awanmbandi/realworld-cicd-pipeline-project.git
-  - Change directory to "realworld-cicd-pipeline-project"
+  - Change directory to "eagles-batch-devops-projects"
   - Swtitch to the "prometheus-and-grafana" git branch 
   - Run: ls or ll  (to confirm you have the branch files)
   - Run: ./install-node-exporter.sh
@@ -148,7 +145,7 @@
   - Perform the following operations on all of them
   - Install git by running: sudo yum install git -y    (The SonarQube server already has git)
   - Clone the following repository: https://github.com/awanmbandi/realworld-cicd-pipeline-project.git
-  - Change directory to "realworld-cicd-pipeline-project"
+  - Change directory to "eagles-batch-devops-projects"
   - Swtitch to the "prometheus-and-grafana" git branch 
   - Run: ls or ll  (to confirm you have the branch files including "install-node-exporter.sh")
   - Run: ./install-node-exporter.sh
@@ -205,21 +202,21 @@
 - **NOTE:** Execute and Perform all operations across all your `Dev, Stage and Prod` Environments
 - **NOTE:** Run all commands and queries across all your VMs (Dev, Stage and Prod)
     - Download the Splunk RPM installer package for Linux
-    ```bash
-    wget -O splunk-9.0.5-e9494146ae5c.x86_64.rpm "https://download.splunk.com/products/splunk/releases/9.0.5/linux/splunk-9.0.5-e9494146ae5c.x86_64.rpm"
+    ```
+    wget -O splunk-9.0.4.1-419ad9369127-linux-2.6-x86_64.rpm "https://download.splunk.com/products/splunk/releases/9.0.4.1/linux/splunk-9.0.4.1-419ad9369127-linux-2.6-x86_64.rpm"
     ```
     - Install Splunk
     ```
-    sudo yum install ./splunk-9.0.5-e9494146ae5c.x86_64.rpm -y
+    sudo yum install ./splunk-9.0.2-17e00c557dc1-linux-2.6-x86_64.rpm -y
     ```
     - Start the splunk server 
-    ```bash
+    ```
     sudo bash
     cd /opt/splunk/bin
     ./splunk start --accept-license --answer-yes
     ```
 - Enter administrator ``username`` and ``password``, remember this because you will need this to log into the application
-- NOTE: The Password must be up to `8` characters. You can assign `adminadmin`
+- NOTE: The Password must be up to `8` characters.
     ![SplunkSetup1!](https://github.com/awanmbandi/realworld-cicd-pipeline-project/raw/zdocs/images/Screen%20Shot%202023-04-28%20at%2010.48.24%20AM%20copy.png)
 
 - Access your Splunk Installation at http://Splunk-Server-IP:8000 and log into splunk
@@ -227,40 +224,32 @@
     ![SplunkSetup2!](https://github.com/awanmbandi/realworld-cicd-pipeline-project/raw/zdocs/images/splunk-login-page.png)
 
 - **NOTE(MANDATORY):** Once you login to the splunk Indexer
-    - Click on `Settings` 
-        - Click `Server Settings` 
-        - Click `General Settings`
-        - Go ahead and Change the `Pause indexing if free disk space` from `5000 to 50`
+    - Click on `Settings` -->> Click `Server Settings` -->> Click `General Settings`
+    - Go ahead and Change the `Pause indexing if free disk space` from `5000 to 50`
     - Click on `Save`
-
-    - Confirm that 
     ![SplunkSetup3!](https://github.com/awanmbandi/realworld-cicd-pipeline-project/raw/zdocs/images/Screen%20Shot%202023-04-29%20at%2010.34.45%20PM.png)
-
-    - **NOTE:** If You Do Not Complete This Part Your Splunk Configuration Won't Work
-    - **IMPORTANT:** Navigate Back to your `Terminal` where you're `Configuring the Indexer`
-        - **Restart Splunk** (For those changes to be captured):  `./splunk restart`
-        ![SplunkSetup4!](https://github.com/awanmbandi/realworld-cicd-pipeline-project/blob/zdocs/images/Screen%20Shot%202023-07-02%20at%209.50.16%20PM.png)
-    - Refresh The Splunk Tab at http://Splunk-Server-IP:8000 and log back into splunk
 
 #### Step 2: Install The Splunk Forwarder only on the `Dev, Stage and Prod` Servers
 - **NOTE:** Execute every command mentioned bellow across all application servers in all the enviroments
 - **NOTE:** Do Not install the Splunk Server in these resources/environments
 - **SSH** Into your instances, as normal user `ec2-user` or ubuntu or centos etc
-
+```
+exit
+```
 - Download the Splunk forwarder RPM installer package 
 ```
-wget -O splunkforwarder-9.0.5-e9494146ae5c.x86_64.rpm "https://download.splunk.com/products/universalforwarder/releases/9.0.5/linux/splunkforwarder-9.0.5-e9494146ae5c.x86_64.rpm"
+wget -O splunkforwarder-9.0.4-de405f4a7979-linux-2.6-x86_64.rpm "https://download.splunk.com/products/universalforwarder/releases/9.0.4/linux/splunkforwarder-9.0.4-de405f4a7979-linux-2.6-x86_64.rpm"
 ```
 - Install the Forwarder
-```bash
+```
 ls -al
-sudo yum install ./splunkforwarder-9.0.5-e9494146ae5c.x86_64.rpm -y
+sudo yum install ./splunkforwarder-9.0.4-de405f4a7979-linux-2.6-x86_64.rpm -y
 ```
 
 - Change to the splunkforwarder bin directory and start the forwarder
 - NOTE: The Password must be at least `8` characters long.
 - Set the port for the forwarder to ``9997``, this is to keep splunk server from conflicting with the splunk forwarder
-```bash
+```
 sudo bash
 cd /opt/splunkforwarder/bin
 ./splunk start --accept-license --answer-yes
@@ -283,15 +272,10 @@ cd /opt/splunkforwarder/bin
 ./splunk add monitor /var/log/tomcat/
 ```
 
-2. Navigate Back to Your `Splunk Indexer/Server` 
-- Set the port for the Splunk Indexer or Server to listen on 9997 and restart
-```bash
+- Set the port for the splunk server to listen on 9997 and restart
+```
 cd /opt/splunk/bin
 ./splunk enable listen 9997
-```
-- Restart Splunk on the VM you are configuring the Forwarder
-```
-./splunk restart
 ```
 
 #### Step 3: View Application Logs in Splunk
@@ -453,7 +437,7 @@ cd /opt/splunk/bin
     ![SonarQubeSetup4!](https://github.com/awanmbandi/realworld-cicd-pipeline-project/raw/zdocs/images/Screen%20Shot%202023-04-24%20at%2011.08.26%20AM.png)
 
     - Go ahead and Confirm in the Jenkinsfile you have the “Quality Gate Stage”. The stage code should look like the below;
-    ```bash
+    ```
     stage('SonarQube GateKeeper') {
         steps {
           timeout(time : 1, unit : 'HOURS'){
@@ -503,9 +487,9 @@ cd /opt/splunk/bin
     ![SonarQubeGateKeeper!](https://github.com/awanmbandi/realworld-cicd-pipeline-project/raw/zdocs/images/sonarqube-webhook-forGateKepper-Result.png)
 
     ### B. Troubleshooting (Possible Issues You May Encounter and Suggested Solutions)
-    1) **1st ISSUE:** If you experience a long wait time at the level of `GateKeeper`, please check if your `Sonar Webhook` is associated with your `SonarQube Project` with `SonarQube Results`
+    1) **1st ISSUE:** If you experience a long wait time at the level of `GateKeeper`, please check if your `Sonar Webhook` is associated with the Project with `SonarQube Results`
     - If you check your jenkins Pipeline you'll most likely find the below message at the `SonarQube GateKeper` stage
-    ```bash
+    ```
     JENKINS CONSOLE OUTPUT
 
     Checking status of SonarQube task 'AYfEB4IQ3rP3Y6VQ_yIa' on server 'SonarQube'
@@ -534,7 +518,7 @@ cd /opt/splunk/bin
 ### Update Maven POM and Integrate/Configure Nexus With Jenkins
 A) Update Maven `POM.xml` file
 - Update the Following lines of Code ``(Line 32 and 36)`` in the maven `POM` file and save
-```bash
+```
 <url>http://Nexus-Server-Private-IP:8081/repository/maven-project-snapshots/</url>
 
 <url>http://Nexus-Server-Private-IP:8081/repository/maven-project-releases/</url>
@@ -542,7 +526,7 @@ A) Update Maven `POM.xml` file
 
 -  Add the following Stage in your Jenkins pipeline config and Update the following Values (nexusUrl, repository, credentialsId, artifactId, file etc.). If necessary 
 - The following `environment` config represents the NEXUS CREDENTIAL stored in jenkins. we're pulling the credential with the use of the predefine ``NEXUS_CREDENTIAL_ID`` environment variable key. Which jenkins already understands. 
-  ```bash
+  ```
   environment {
     WORKSPACE = "${env.WORKSPACE}"
     NEXUS_CREDENTIAL_ID = 'Nexus-Credential'
@@ -550,7 +534,7 @@ A) Update Maven `POM.xml` file
   ```
 
 - Here we're using the `Nexus Artifact Uploader` stage config to store the app artifact
-  ```bash
+  ```
   stage("Nexus Artifact Uploader"){
       steps{
           nexusArtifactUploader(
@@ -580,11 +564,10 @@ A) Update Maven `POM.xml` file
 ![ArtifactStored!](https://github.com/awanmbandi/realworld-cicd-pipeline-project/raw/zdocs/images/Screen%20Shot%202023-04-27%20at%204.08.33%20PM.png)
 
 ## Configure Ansible To Deploy to `Dev`, `Stage` and `Prod`
-- NOTE: That you passed a Userdata in the Jenkins/Maven/Ansible and Dev,Stage and Prod Instances to Configure the Environments already. So you do not have to perform these operations again. You just Have to confirm, the Configurations where all Successful.
 - NOTE: Make sure you `Assign an IAM ROLE / PROFILE` with `EC2 Full Access` to your `JENKINS server`
 - NOTE: Update `ALL Pipeline Deploy Stages` with your `Ansible Credentials ID` (IMPORTANT)
 - Also Make sure the following Userdata was executed across all the Environment Deployment Nodes/Areas
-```bash
+```
 #!/bin/bash
 # Tomcat Server Installation
 sudo su
@@ -599,24 +582,6 @@ sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_
 systemctl restart sshd
 echo "ansibleadmin ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 ```
-
-### Setup a CI Integration Between `GitHub` and `Jenkins`
-1. Navigate to your GitHub project repository
-    - Open the repository
-    - Click on the repository `Settings`
-        - Click on `Webhooks`
-        - Click `Add webhook`
-            - Payload URL: http://JENKINS-PUBLIC-IP-ADDRESS/github-webhook/
-            - Content type: `application/json`
-            - Active: Confirm it is `Enable`
-            - Click on `Add Webhook`
-
-2. Confirm that this is Enabled at the Level of the Jenkins Job as well
-    - Navigate to your Jenkins Application: http://JENKINS-PUBLIC-IP-ADDRESS:8080
-        - Click on the `Job Name`
-        - Navigate to `Build Triggers`
-            - Enable/Check the box `GitHub hook trigger for GITScm polling`
-        - Click on `Apply and Save`
 
 ### TEST PIPELINE DEPLOYMENT
 - Confirm/Confirm that your deployments where all successful accross all Environments
